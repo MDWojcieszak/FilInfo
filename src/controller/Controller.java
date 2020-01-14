@@ -13,6 +13,7 @@ public class Controller implements ActionListener {
     private List<String> Prusa;
     private List<String> Ender;
     private List<String> Sapphire;
+    private FileController file;
 
     private int printer;
     private int fillament_change;
@@ -23,15 +24,17 @@ public class Controller implements ActionListener {
         this.GUI.getFrame().setVisible(true);
         this.addActionListeners();
 
-        actualLayout(0);
+        changeLayout(0);
         Prusa = new ArrayList<>();
         Ender = new ArrayList<>();
         Sapphire = new ArrayList<>();
-        for(int i=0;i<5;i++) {
-            Prusa.add("WIP");
-            Ender.add("WIP");
-            Sapphire.add("WIP");
+        this.file = new FileController(".\\info.txt");
+        this.file.fileRead();
+        for(int i=1;i<6;i++) {
+            Prusa.add(this.file.getFileContent().get(i));
         }
+        Ender.add(this.file.getFileContent().get(7));
+        Sapphire.add(this.file.getFileContent().get(9));
     }
     private void addActionListeners() {
         GUI.getButton_printer_1().addActionListener(this);
@@ -50,7 +53,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getButton_printer_1()) {
             try {
                 this.printer=0;
-                actualLayout(1);
+                changeLayout(1);
                // printerButtonAction(0);
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -59,7 +62,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getButton_printer_2()) {
             try {
                 this.printer=1;
-                actualLayout(1);
+                changeLayout(1);
                // printerButtonAction(1);
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -68,7 +71,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getButton_printer_3()) {
             try {
                 this.printer=2;
-                actualLayout(1);
+                changeLayout(1);
                // printerButtonAction(2);
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -76,7 +79,7 @@ public class Controller implements ActionListener {
         }
         if (((JButton) event.getSource()) == GUI.getButton_back()) {
             try {
-                actualLayout(0);
+                changeLayout(0);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -91,7 +94,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getEx1()) {
             try {
                 fillament_change=0;
-                actualLayout(2);
+                changeLayout(2);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -99,7 +102,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getEx2()) {
             try {
                 fillament_change=1;
-                actualLayout(2);
+                changeLayout(2);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -107,7 +110,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getEx3()) {
             try {
                 fillament_change=2;
-                actualLayout(2);
+                changeLayout(2);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -115,7 +118,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getEx4()) {
             try {
                 fillament_change=3;
-                actualLayout(2);
+                changeLayout(2);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -123,7 +126,7 @@ public class Controller implements ActionListener {
         if (((JButton) event.getSource()) == GUI.getEx5()) {
             try {
                 fillament_change=4;
-                actualLayout(2);
+                changeLayout(2);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -131,7 +134,7 @@ public class Controller implements ActionListener {
     }
   /*  private void printerButtonAction(int pNumber){
         this.printer = pNumber;
-        actualLayout(1);
+        changeLayout(1);
     }*/
     private void ChangeFillament(){
         String filament =GUI.getFilType().getSelectedItem().toString() + " " + GUI.getColour().getSelectedItem().toString() + " - " + GUI.getCompany().getSelectedItem().toString();
@@ -156,9 +159,10 @@ public class Controller implements ActionListener {
                 Prusa.set(4,filament);
                 break;
         }
-        actualLayout(1);
+        saveToFile(fillament_change);
+        changeLayout(1);
     }
-    private void actualLayout(int layout){
+    private void changeLayout(int layout){
         switch (layout)
         {
             case 0:
@@ -217,5 +221,18 @@ public class Controller implements ActionListener {
                 GUI.getPanel_change().setVisible(true);
                 break;
         }
+    }
+    private void saveToFile(int exNumber) {
+        switch(printer){
+            case 0:
+                file.getFileContent().set(exNumber+1,Prusa.get(exNumber));
+                break;
+            case 1:
+                file.getFileContent().set(7,Ender.get(0));
+                break;
+            case 2:
+                file.getFileContent().set(9,Sapphire.get(0));
+        }
+        this.file.fileSave();
     }
 }

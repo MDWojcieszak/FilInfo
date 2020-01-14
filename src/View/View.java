@@ -36,6 +36,8 @@ public class View extends JFrame{
     private void initializeView(){
         frame = new JFrame();
         frame.setBounds(100, 100, 300, 350);
+        frame.setResizable(false);
+        frame.setTitle("FILL INFO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -155,7 +157,6 @@ public class View extends JFrame{
         button_back.setFont(new Font("Times New Roman", Font.BOLD, 20));
         panel_info.add(button_back);
 
-// panel_welcome printers
         panel_welcome = new JPanel();
         panel_welcome.setBounds(0, 0, 284, 311);
         layeredPane_1.add(panel_welcome);
@@ -213,9 +214,6 @@ public class View extends JFrame{
         return Ex5;
     }
 
-    public JLabel getEx1_label() {
-        return Ex1_label;
-    }
 
     public JLabel getEx2_label() {
         return Ex2_label;
@@ -260,6 +258,7 @@ public class View extends JFrame{
     public JComboBox getCompany() {
         return company;
     }
+
     public JComboBox getFilType() {
         return filType;
     }

@@ -1,0 +1,10 @@
+Prusa:
+PLA Lime - Prusament
+ABS White - Wolfix
+PLA White - 3D Active
+PLA Black - 3D Active
+PLA Green - 3D Active
+Ender:
+PLA Orange - Prusament
+Sapphire:
+ABS Green - Wolfix
